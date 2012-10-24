@@ -14,7 +14,24 @@ public class MainActivity extends Activity {
     super.onCreate(savedInstanceState);
     requestWindowFeature(Window.FEATURE_NO_TITLE);
     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+      codeForNewerAPI();
+    } else {
+      codeForOlderAPI();
+    }
     setContentView(com.kentcdodds.flashlight.R.layout.main);
+  }
+
+  /**
+   * Code for newer api. Stuff that honeycomb isn't compatible with
+   */
+  private void codeForNewerAPI() {
+    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+  }
+
+  /**
+   * Stuff for honeycomb only
+   */
+  private void codeForOlderAPI() {
   }
 }
