@@ -1,5 +1,7 @@
 D:\Dropbox\Projects\Netbeans\Flashlight\bin\classes.dex : \
 D:\Dropbox\Projects\Netbeans\Flashlight\bin\classes\com\kentcdodds\flashlight\BuildConfig.class \
+D:\Dropbox\Projects\Netbeans\Flashlight\bin\classes\com\kentcdodds\flashlight\MainActivity$1.class \
+D:\Dropbox\Projects\Netbeans\Flashlight\bin\classes\com\kentcdodds\flashlight\MainActivity$MyGestureDetector.class \
 D:\Dropbox\Projects\Netbeans\Flashlight\bin\classes\com\kentcdodds\flashlight\MainActivity.class \
 D:\Dropbox\Projects\Netbeans\Flashlight\bin\classes\com\kentcdodds\flashlight\R$attr.class \
 D:\Dropbox\Projects\Netbeans\Flashlight\bin\classes\com\kentcdodds\flashlight\R$drawable.class \
