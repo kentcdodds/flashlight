@@ -19,6 +19,7 @@ import java.util.List;
 public class MainActivity extends FragmentActivity {
 
   private GestureDetector gestureDetector;
+  
   private Date lastTouched = new Date();
   private FragmentPagerAdapter mAdapter;
 

@@ -1,2 +1,2 @@
-D:\Dropbox\Projects\Netbeans\Flashlight\bin\AndroidManifest.xml : \
-D:\Dropbox\Projects\Netbeans\Flashlight\AndroidManifest.xml \
+C:\Users\labuser\Documents\NetBeansProjects\flashlight\bin\AndroidManifest.xml : \
+C:\Users\labuser\Documents\NetBeansProjects\flashlight\AndroidManifest.xml \
