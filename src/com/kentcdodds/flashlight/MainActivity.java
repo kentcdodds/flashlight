@@ -19,8 +19,6 @@ import java.util.List;
 public class MainActivity extends FragmentActivity {
 
   private GestureDetector gestureDetector;
-  
-  private Date lastTouched = new Date();
   private FragmentPagerAdapter mAdapter;
 
   /**
@@ -29,15 +27,20 @@ public class MainActivity extends FragmentActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
     requestWindowFeature(Window.FEATURE_NO_TITLE);
     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
     setContentView(R.layout.main);
+    gestureDetector = new GestureDetector(getApplicationContext(), new MyGestureListener(getWindow()));
+
     if (isNewerAPI()) {
       codeForNewerAPI();
     } else {
       codeForOlderAPI();
     }
+
     mAdapter = new ColorFragmentAdapter(getSupportFragmentManager(), getDefaultColorList());
     ViewPager pager = (ViewPager) super.findViewById(R.id.viewpager);
     pager.setAdapter(mAdapter);
@@ -59,10 +62,7 @@ public class MainActivity extends FragmentActivity {
 
   @Override
   public boolean onTouchEvent(MotionEvent event) {
-    if ((lastTouched.getTime() * 60000) + 3 < (new Date().getTime() * 60000)) {
-      hideNavigation();
-    }
-    lastTouched = new Date();
+    print("Sending touch event to gestureDetector.");
     return gestureDetector.onTouchEvent(event);
   }
 
@@ -70,11 +70,6 @@ public class MainActivity extends FragmentActivity {
    * Code for newer api. Stuff that honeycomb isn't compatible with
    */
   private void codeForNewerAPI() {
-    hideNavigation();
-  }
-
-  private void hideNavigation() {
-    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
   }
 
   /**
