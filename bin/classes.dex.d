@@ -4,6 +4,7 @@ D:\Dropbox\Projects\Netbeans\Flashlight\bin\classes\com\kentcdodds\flashlight\Co
 D:\Dropbox\Projects\Netbeans\Flashlight\bin\classes\com\kentcdodds\flashlight\ColorFragmentAdapter.class \
 D:\Dropbox\Projects\Netbeans\Flashlight\bin\classes\com\kentcdodds\flashlight\MainActivity.class \
 D:\Dropbox\Projects\Netbeans\Flashlight\bin\classes\com\kentcdodds\flashlight\MyAdapter.class \
+D:\Dropbox\Projects\Netbeans\Flashlight\bin\classes\com\kentcdodds\flashlight\MyGestureListener.class \
 D:\Dropbox\Projects\Netbeans\Flashlight\bin\classes\com\kentcdodds\flashlight\R$attr.class \
 D:\Dropbox\Projects\Netbeans\Flashlight\bin\classes\com\kentcdodds\flashlight\R$drawable.class \
 D:\Dropbox\Projects\Netbeans\Flashlight\bin\classes\com\kentcdodds\flashlight\R$id.class \

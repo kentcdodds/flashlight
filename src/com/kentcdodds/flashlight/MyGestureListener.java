@@ -5,8 +5,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
-import java.util.List;
 
 public class MyGestureListener extends SimpleOnGestureListener {
 
@@ -21,12 +19,20 @@ public class MyGestureListener extends SimpleOnGestureListener {
   }
 
   @Override
+  public boolean onDown(MotionEvent e) {
+    MainActivity.print("onDown()");
+    return true;
+  }
+
+  @Override
   public void onLongPress(MotionEvent e) {
+    MainActivity.print("onLongPress()");
     //TODO: Have options pop up.
   }
 
   @Override
   public boolean onDoubleTap(MotionEvent e) {
+    MainActivity.print("onDoubleTap()");
     getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     return true;
   }

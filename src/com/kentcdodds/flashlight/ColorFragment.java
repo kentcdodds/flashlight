@@ -27,7 +27,7 @@ public class ColorFragment extends Fragment {
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View v = new View(container.getContext());
+    View v = new View(getActivity());
     v.setBackgroundColor(color);
     return v;
   }

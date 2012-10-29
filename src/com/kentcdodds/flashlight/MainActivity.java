@@ -33,7 +33,7 @@ public class MainActivity extends FragmentActivity {
     getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
     setContentView(R.layout.main);
-    gestureDetector = new GestureDetector(getApplicationContext(), new MyGestureListener(getWindow()));
+    gestureDetector = new GestureDetector(this, new MyGestureListener(getWindow()));
 
     if (isNewerAPI()) {
       codeForNewerAPI();
@@ -47,6 +47,21 @@ public class MainActivity extends FragmentActivity {
     pager.setCurrentItem(Math.round(mAdapter.getCount() / 2));
   }
 
+  @Override
+  public boolean onTouchEvent(MotionEvent event) {
+    print("Sending touch event to gestureDetector.");
+    return gestureDetector.onTouchEvent(event);
+  }
+  
+  /**
+   * Prints the given object to the log with the debug priority with the tag FLASHLIGHT
+   *
+   * @param object
+   */
+  public static void print(Object object) {
+    Log.println(Log.DEBUG, "FLASHLIGHT", object.toString());
+  }
+
   /**
    * @return the default list of color ints
    */
@@ -58,12 +73,6 @@ public class MainActivity extends FragmentActivity {
     colorList.add(Color.RED);
     colorList.add(Color.YELLOW);
     return colorList;
-  }
-
-  @Override
-  public boolean onTouchEvent(MotionEvent event) {
-    print("Sending touch event to gestureDetector.");
-    return gestureDetector.onTouchEvent(event);
   }
 
   /**
@@ -83,14 +92,5 @@ public class MainActivity extends FragmentActivity {
    */
   private boolean isNewerAPI() {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
-  }
-
-  /**
-   * Prints the given object to the log with the debug priority with the tag FLASHLIGHT
-   *
-   * @param object
-   */
-  public static void print(Object object) {
-    Log.println(Log.DEBUG, "FLASHLIGHT", object.toString());
   }
 }
