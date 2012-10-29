@@ -1,3 +1,6 @@
+# view res/layout/main.xml #generated:8
+-keep class android.support.v4.view.ViewPager { <init>(...); }
+
 # view AndroidManifest.xml #generated:14
 -keep class com.kentcdodds.flashlight.MainActivity { <init>(...); }
 

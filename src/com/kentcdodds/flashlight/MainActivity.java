@@ -1,20 +1,26 @@
 package com.kentcdodds.flashlight;
 
-import android.app.*;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.*;
-import android.view.*;
-import android.view.GestureDetector.SimpleOnGestureListener;
-import android.widget.Toast;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 
   private GestureDetector gestureDetector;
   private Date lastTouched = new Date();
+  private FragmentPagerAdapter mAdapter;
 
   /**
    * Called when the activity is first created.
@@ -25,22 +31,28 @@ public class MainActivity extends Activity {
     requestWindowFeature(Window.FEATURE_NO_TITLE);
     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+    setContentView(R.layout.main);
+    if (isNewerAPI()) {
       codeForNewerAPI();
     } else {
       codeForOlderAPI();
     }
-    gestureDetector = new GestureDetector(getApplicationContext(), new MyGestureDetector(getDefaultColorList()));
-    setContentView(R.layout.main);
+    mAdapter = new ColorFragmentAdapter(getSupportFragmentManager(), getDefaultColorList());
+    ViewPager pager = (ViewPager) super.findViewById(R.id.viewpager);
+    pager.setAdapter(mAdapter);
+    pager.setCurrentItem(Math.round(mAdapter.getCount() / 2));
   }
 
-  private List<ColorDrawable> getDefaultColorList() {
-    List<ColorDrawable> colorList = new ArrayList<ColorDrawable>();
-    colorList.add(new ColorDrawable(Color.WHITE));
-    colorList.add(new ColorDrawable(Color.BLUE));
-    colorList.add(new ColorDrawable(Color.GREEN));
-    colorList.add(new ColorDrawable(Color.RED));
-    colorList.add(new ColorDrawable(Color.YELLOW));
+  /**
+   * @return the default list of color ints
+   */
+  private List<Integer> getDefaultColorList() {
+    List<Integer> colorList = new ArrayList<Integer>();
+    colorList.add(Color.WHITE);
+    colorList.add(Color.BLUE);
+    colorList.add(Color.GREEN);
+    colorList.add(Color.RED);
+    colorList.add(Color.YELLOW);
     return colorList;
   }
 
@@ -70,90 +82,19 @@ public class MainActivity extends Activity {
   private void codeForOlderAPI() {
   }
 
-  private class MyGestureDetector extends SimpleOnGestureListener {
+  /**
+   * @return whether the build version is greater than HONEYCOMB.
+   */
+  private boolean isNewerAPI() {
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
+  }
 
-    private static final int SWIPE_MAX_OFF_PATH = 250;
-    private static final int SWIPE_MIN_DISTANCE = 120;
-    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
-    private final List<ColorDrawable> colorList;
-    private int currentPosition = 0;
-
-    public MyGestureDetector(List<ColorDrawable> colorList) {
-      super();
-      this.colorList = colorList;
-    }
-
-    @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-      try {
-        if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH) {
-          if (e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE
-                  && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
-            onUpSwipe();
-            return true;
-          } else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE
-                  && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
-            onDownSwipe();
-            return true;
-          }
-        } else {
-          // right to left swipe
-          if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
-                  && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-            onLeftSwipe();
-            return true;
-          } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
-                  && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-            onRightSwipe();
-            return true;
-          }
-        }
-        // up to down swipe
-      } catch (Exception e) {
-      }
-      return false;
-    }
-
-    /**
-     * What to do when the user swipes left. Change activity color
-     */
-    private void onLeftSwipe() {
-      changeColor(((currentPosition == 0) ? colorList.size() - 1 : currentPosition - 1));
-      Toast.makeText(getBaseContext(), "Left Swipe: " + currentPosition, Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * What to do when the user swipes right. Change activity color
-     */
-    private void onRightSwipe() {
-      changeColor(((currentPosition == colorList.size() - 1) ? 0 : currentPosition + 1));
-      Toast.makeText(getBaseContext(), "Right Swipe: " + currentPosition, Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Changes the currentPosition to the new position and sets the background drawable of the window to the color
-     * drawable at that position
-     *
-     * @param newPosition
-     */
-    private void changeColor(int newPosition) {
-      currentPosition = newPosition;
-//      getWindow().setBackgroundDrawable(colorList.get(currentPosition));
-      getWindow().getDecorView().setBackground(colorList.get(currentPosition));
-    }
-
-    /**
-     * What to do when the user swipes up. Brighten the screen
-     */
-    private void onUpSwipe() {
-      Toast.makeText(getBaseContext(), "Up Swipe", Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * What to do when the user swipes down. Dim the screen
-     */
-    private void onDownSwipe() {
-      Toast.makeText(getBaseContext(), "Down Swipe", Toast.LENGTH_SHORT).show();
-    }
+  /**
+   * Prints the given object to the log with the debug priority with the tag FLASHLIGHT
+   *
+   * @param object
+   */
+  public static void print(Object object) {
+    Log.println(Log.DEBUG, "FLASHLIGHT", object.toString());
   }
 }
